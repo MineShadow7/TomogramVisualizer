@@ -56,8 +56,12 @@ namespace Карагодин_Tomogram_Visualizer
             {
                 if(renderType = false)
                 {
-                    view.DrawQuads(currentLayer);
-                    glControl1.SwapBuffers();
+                    if (needReload)
+                    {
+                        view.DrawQuads(currentLayer);
+                        glControl1.SwapBuffers();
+                        needReload = false;
+                    }
                 }
                 if (renderType = true)
                 {

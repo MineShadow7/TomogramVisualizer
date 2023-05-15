@@ -45,12 +45,13 @@ namespace Карагодин_Tomogram_Visualizer
             {
                 for(int j = 0; j < Bin.Y; j++)
                 {
-                    int pixelNumber = i + j * Bin.X + layerNumber * Bin.Y * Bin.Y;
+                    int pixelNumber = i + j * Bin.X + layerNumber * Bin.X * Bin.Y;
                     textureImage.SetPixel(i, j, TransferFunction(Bin.array[pixelNumber]));
                 }
             }
         }
 
+        [Obsolete]
         public void DrawTexture()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -81,6 +82,7 @@ namespace Карагодин_Tomogram_Visualizer
             GL.Viewport(0, 0, width, height);
         }
 
+        [Obsolete]
         public void DrawQuads(int layerNumber)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
