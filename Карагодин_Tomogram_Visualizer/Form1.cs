@@ -19,8 +19,7 @@ namespace Карагодин_Tomogram_Visualizer
         int FrameCount;
         DateTime NextFPSUpdate = DateTime.Now.AddSeconds(1);
         bool needReload = false;
-        bool renderType = false;
-        
+        int renderType = 1;
         void displayFPS()
         {
             if(DateTime.Now >= NextFPSUpdate)
@@ -54,25 +53,26 @@ namespace Карагодин_Tomogram_Visualizer
         {
             if (loaded)
             {
-                if(renderType = false)
+                if (needReload)
                 {
-                    if (needReload)
+                    switch (renderType)
                     {
-                        view.DrawQuads(currentLayer);
-                        glControl1.SwapBuffers();
-                        needReload = false;
+                        case 1:
+                            view.DrawQuads(currentLayer, trackBar2.Value, trackBar3.Value);
+                            glControl1.SwapBuffers();
+                            break;
+                        case 2:
+                            view.generateTextureImage(currentLayer, trackBar2.Value, trackBar3.Value);
+                            view.Load2dTexture();
+                            view.DrawTexture();
+                            glControl1.SwapBuffers();
+                            break;
+                        case 3:
+                            view.DrawQuadStrip(currentLayer, trackBar2.Value, trackBar3.Value);
+                            glControl1.SwapBuffers();
+                            break;
                     }
-                }
-                if (renderType = true)
-                {
-                    if (needReload)
-                    {
-                        view.generateTextureImage(currentLayer);
-                        view.Load2dTexture();
-                        needReload = false;
-                    }
-                    view.DrawTexture();
-                    glControl1.SwapBuffers();
+                    needReload = false;
                 }
             }
         }
@@ -101,7 +101,7 @@ namespace Карагодин_Tomogram_Visualizer
         {
             if (radioButton1.Checked)
             {
-                renderType = false;
+                renderType = 1;
             }
         }
 
@@ -109,8 +109,24 @@ namespace Карагодин_Tomogram_Visualizer
         {
             if (radioButton2.Checked)
             {
-                renderType = true;
+                renderType = 2;
             }
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked)
+                renderType = 3;
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            needReload = true;
+        }
+
+        private void trackBar3_Scroll(object sender, EventArgs e)
+        {
+            needReload = true;
         }
     }
 }
